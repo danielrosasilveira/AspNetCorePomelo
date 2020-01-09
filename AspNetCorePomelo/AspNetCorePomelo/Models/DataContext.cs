@@ -10,7 +10,7 @@ namespace AspNetCorePomelo.Models
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             var configuration = builder.Build();
-            optionsBuilder.UseMySql(configuration["ConnectionString:DefaultConnetion"]);
+            optionsBuilder.UseMySql(configuration["ConnectionStrings:DefaultConnection"]);
         }
 
         public DbSet<Usuarios> Usuarios { get; set; }
