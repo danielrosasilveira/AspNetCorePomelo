@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using AspNetCorePomelo.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,8 +15,15 @@ namespace AspNetCorePomelo.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            ViewBag.usuarios = db.Usuarios.ToList();
-            return View();
+            if (ViewBag.login != null)
+            {
+                ViewBag.usuarios = db.Usuarios.ToList();
+                return View();
+            }
+            else
+            {
+                return View(nameof(Login));
+            }
         }
 
         [HttpGet]
@@ -61,9 +63,45 @@ namespace AspNetCorePomelo.Controllers
         [Route("Edit/{id}")]
         public IActionResult Edit(Usuarios usu)
         {
-            db.Entry(usu).State = EntityState.Modified;            
+            db.Entry(usu).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Route("Buscar")]
+        public IActionResult Buscar(string nome)
+        {
+            ViewBag.usuarios = db.Usuarios.Where(x => x.Nome.Contains(nome));
+            return View(nameof(Index));
+        }
+
+
+        [HttpGet]
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login(string usuario, string senha)
+        {
+            ViewBag.login = db.Usuarios.Where(x => x.Usuario.Contains(usuario) && x.Senha.Contains(senha)).FirstOrDefault();
+
+            if (ViewBag.login != null)
+            {
+                ViewBag.usuarios = db.Usuarios.ToList();
+
+                return View("index");
+            }
+            else
+            {
+                ViewBag.Erro = "Dados Incorretos!!";
+                return View("login");
+            }
         }
     }
 }
