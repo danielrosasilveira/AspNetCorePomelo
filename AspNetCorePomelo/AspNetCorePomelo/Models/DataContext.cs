@@ -14,5 +14,6 @@ namespace AspNetCorePomelo.Models
         }
 
         public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<ClientesModel> Clientes { get; set; }
     }
 }
