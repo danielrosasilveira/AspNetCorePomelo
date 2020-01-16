@@ -13,20 +13,11 @@ namespace AspNetCorePomelo.Controllers
     {
         DataContext db = new DataContext();
 
-        [Route("")]
-        [Route("~/")]
         [Route("index")]
         public IActionResult Index()
         {
-            if (ViewBag.login != null)
-            {
-                ViewBag.clientes = db.Clientes.ToList();
-                return View();
-            }
-            else
-            {
-                return View(nameof(Login));
-            }
+            ViewBag.clientes = db.Clientes.ToList();
+            return View();
         }
 
         [HttpGet]

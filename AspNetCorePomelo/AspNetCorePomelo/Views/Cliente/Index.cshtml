@@ -20,18 +20,14 @@
         <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(página atual)</span></a>
+                    <a class="nav-link" asp-controller="Usuario" asp-action="Index">Home <span class="sr-only">(página atual)</span></a>
                 </li>
 
                 <li class="nav-item active">
-                    @if (@ViewBag.Login.Nivel == "Admin")
-                    {
-                        <a class="nav-link">Clientes</a>
-                    }
-                    else
-                    {
-                        <a class="nav-link disabled" aria-disabled="true">Clientes</a>
-                    }
+                    
+                        <a class="nav-link" asp-controller="Cliente" asp-action="Index">Clientes</a>
+                    
+                    
                 </li>
 
                 <li class="nav-item dropdown">
@@ -60,7 +56,7 @@
     <div class="container">
 
         <div align="right" style="margin:15px;">
-            <a type="button" class="btn btn-success" asp-controller="Usuario" asp-action="Add">Adicionar</a>
+            <a type="button" class="btn btn-success" asp-controller="Cliente" asp-action="Add">Adicionar</a>
         </div>
 
         <table class="table table-hover">
@@ -68,39 +64,22 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Nome</th>
-                    <th scope="col">Usuário</th>
-                    <th scope="col">Senha</th>
-                    <th scope="col">Ativo</th>
-                    <th scope="col">Nível</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">Telefone</th>                    
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var usuario in ViewBag.usuarios)
+                @foreach (var cliente in ViewBag.clientes)
                 {
                     <tr>
-                        <th scope="row">@usuario.Id</th>
-                        <td>@usuario.Nome</td>
-                        <td>@usuario.Usuario</td>
-                        <td>@usuario.Senha</td>
+                        <th scope="row">@cliente.Id</th>
+                        <td>@cliente.Nome</td>
+                        <td>@cliente.Endereco</td>
+                        <td>@cliente.Telefone</td>
                         <td>
-                            @if (@usuario.Ativo == "false")
-                            {
-                                <text>
-                                    Não
-                                </text>
-                            }
-                            else
-                            {
-                                <text>
-                                    Sim
-                                </text>
-                            }
-                        </td>
-                        <td>@usuario.Nivel</td>
-                        <td>
-                            <a type="button" class="btn btn-info" asp-controller="Usuario" asp-action="Edit" asp-route-id="@usuario.Id">Editar</a>
-                            <a type="button" class="btn btn-danger" asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('Deseja excluir o Registro?')">Apagar</a>
+                            <a type="button" class="btn btn-info" asp-controller="Cliente" asp-action="Edit" asp-route-id="@cliente.Id">Editar</a>
+                            <a type="button" class="btn btn-danger" asp-controller="Cliente" asp-action="Delete" asp-route-id="@cliente.Id" onclick="return confirm('Deseja excluir o Registro?')">Apagar</a>
                         </td>
                     </tr>
                 }
